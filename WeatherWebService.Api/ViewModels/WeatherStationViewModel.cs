@@ -6,6 +6,5 @@
         public string Name { get; set; }
         public int? CityId { get; set; }
         public DateOnly? InstallationDate { get; set; }
-        public List<ObservationViewModel> Observations { get; set; } = new List<ObservationViewModel>();
     }
 }

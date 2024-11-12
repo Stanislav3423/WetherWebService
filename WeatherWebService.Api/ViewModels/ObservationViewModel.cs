@@ -10,7 +10,5 @@
         public decimal? WindSpeed { get; set; }
         public decimal? Precipitation { get; set; }
         public int? PrecipitationTypeId { get; set; }
-        public string? PrecipitationTypeName { get; set; } // Якщо потрібно передавати назву типу опадів
-        public int? WeatherStationId { get; set; } // Якщо хочете передавати деталі про метеостанцію
     }
 }

@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WeatherWebService.Api.Models;
 
-public partial class WeatherDbContext : DbContext
+public partial class OldWeatherDbContext : DbContext
 {
-    public WeatherDbContext()
+    public OldWeatherDbContext()
     {
     }
 
-    public WeatherDbContext(DbContextOptions<WeatherDbContext> options)
+    public OldWeatherDbContext(DbContextOptions<OldWeatherDbContext> options)
         : base(options)
     {
     }
@@ -22,10 +22,6 @@ public partial class WeatherDbContext : DbContext
     public virtual DbSet<PrecipitationType> PrecipitationTypes { get; set; }
 
     public virtual DbSet<Region> Regions { get; set; }
-
-    public virtual DbSet<Season> Seasons { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<WeatherStation> WeatherStations { get; set; }
 
@@ -52,11 +48,6 @@ public partial class WeatherDbContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("name");
             entity.Property(e => e.RegionId).HasColumnName("region_id");
-
-            entity.HasOne(d => d.Region).WithMany(p => p.Cities)
-                .HasForeignKey(d => d.RegionId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__cities__region_i__398D8EEE");
         });
 
         modelBuilder.Entity<Observation>(entity =>
@@ -83,16 +74,6 @@ public partial class WeatherDbContext : DbContext
             entity.Property(e => e.WindSpeed)
                 .HasColumnType("decimal(5, 2)")
                 .HasColumnName("wind_speed");
-
-            entity.HasOne(d => d.PrecipitationType).WithMany(p => p.Observations)
-                .HasForeignKey(d => d.PrecipitationTypeId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__observati__preci__47DBAE45");
-
-            entity.HasOne(d => d.Station).WithMany(p => p.Observations)
-                .HasForeignKey(d => d.StationId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__observati__stati__46E78A0C");
         });
 
         modelBuilder.Entity<PrecipitationType>(entity =>
@@ -123,47 +104,6 @@ public partial class WeatherDbContext : DbContext
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<Season>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__seasons__3213E83FB0B460DB");
-
-            entity.ToTable("seasons");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.Name)
-                .HasMaxLength(45)
-                .HasColumnName("name");
-            entity.Property(e => e.RegionId).HasColumnName("region_id");
-            entity.Property(e => e.StartDate).HasColumnName("start_date");
-
-            entity.HasOne(d => d.Region).WithMany(p => p.Seasons)
-                .HasForeignKey(d => d.RegionId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__seasons__region___3F466844");
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__users__3213E83F4322EB6C");
-
-            entity.ToTable("users");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.RegionId).HasColumnName("region_id");
-            entity.Property(e => e.Role)
-                .HasMaxLength(45)
-                .HasColumnName("role");
-            entity.Property(e => e.Username)
-                .HasMaxLength(45)
-                .HasColumnName("username");
-
-            entity.HasOne(d => d.Region).WithMany(p => p.Users)
-                .HasForeignKey(d => d.RegionId)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("FK__users__region_id__4222D4EF");
-        });
-
         modelBuilder.Entity<WeatherStation>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__weather___3213E83FD8E525F1");
@@ -176,11 +116,6 @@ public partial class WeatherDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .HasColumnName("name");
-
-            entity.HasOne(d => d.City).WithMany(p => p.WeatherStations)
-                .HasForeignKey(d => d.CityId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__weather_s__city___3C69FB99");
         });
 
         OnModelCreatingPartial(modelBuilder);

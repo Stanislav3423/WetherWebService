@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using WeatherWebService.Api.Models;
+using Microsoft.Extensions.DependencyInjection;
+//using WeatherWebService.Api.Models;
+using WeatherWebService.Api.NewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 

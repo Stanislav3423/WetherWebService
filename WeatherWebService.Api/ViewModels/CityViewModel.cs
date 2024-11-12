@@ -7,6 +7,5 @@
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public int? RegionId { get; set; }
-        public string? RegionName { get; set; }
     }
 }

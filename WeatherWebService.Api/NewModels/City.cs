@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WeatherWebService.Api.Models;
+namespace WeatherWebService.Api.NewModels;
 
 public partial class City
 {
@@ -16,4 +16,6 @@ public partial class City
     public int? RegionId { get; set; }
 
     public virtual Region? Region { get; set; }
+
+    public virtual ICollection<WeatherStation> WeatherStations { get; set; } = new List<WeatherStation>();
 }

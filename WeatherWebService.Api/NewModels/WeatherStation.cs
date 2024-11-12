@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WeatherWebService.Api.Models;
+namespace WeatherWebService.Api.NewModels;
 
 public partial class WeatherStation
 {
@@ -14,4 +14,6 @@ public partial class WeatherStation
     public DateOnly? InstallationDate { get; set; }
 
     public virtual City? City { get; set; }
+
+    public virtual ICollection<Observation> Observations { get; set; } = new List<Observation>();
 }
